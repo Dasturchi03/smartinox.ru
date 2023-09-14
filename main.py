@@ -22,7 +22,8 @@ def send_file(message: types.Message):
     mess = bot.reply_to(message, 'Сбор данных...')
     main()
     bot.delete_message(mess.chat.id, mess.message_id)
-    bot.send_document(message.chat.id, types.InputFile('files/smartinox_ru.xlsx'))
+    with open('files/smartinox_ru.xlsx', 'rb') as file:
+        bot.send_document(message.chat.id, file)
 
 
 def main():
