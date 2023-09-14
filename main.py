@@ -147,4 +147,4 @@ def write_xlsx(data: list):
 
 if __name__ == '__main__':
     MAIN_URL = 'https://smartinox.ru'
-    bot.polling()
+    bot.infinity_polling()
