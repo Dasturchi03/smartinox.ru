@@ -89,7 +89,7 @@ def parse_data(sp: BeautifulSoup, head=True):
                     except:
                         pass
             s = s[:-1]
-            s[-2] = s[-2].removesuffix('руб.')
+            s[-2] = s[-2].lstrip('руб.')
             dt.append(s)
     headers += ['Цена, руб']
     if head:
