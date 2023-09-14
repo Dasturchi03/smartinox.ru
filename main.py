@@ -3,27 +3,26 @@ import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag, NavigableString
 from openpyxl import Workbook
-from aiogram import Bot, Dispatcher, executor, types
+from telebot import TeleBot, types
 
 
 TOKEN = "6430551619:AAG4F4yKgHah4mnrHcNHCzMa3dMqicGlLOw"
 
-bot = Bot(TOKEN)
-dp = Dispatcher(bot)
+bot = TeleBot(TOKEN)
 
 
-@dp.message_handler(commands=['start'])
-async def start_bot(message: types.Message):
-    await bot.send_message(message.chat.id, 'Привествие 👋')
-    await bot.send_message(message.chat.id, 'Используйте команду /file, чтобы получить файл')
+@bot.message_handler(commands=['start'])
+def start_bot(message: types.Message):
+    bot.send_message(message.chat.id, 'Привествие 👋')
+    bot.send_message(message.chat.id, 'Используйте команду /file, чтобы получить файл')
 
 
-@dp.message_handler(commands=['file'])
-async def send_file(message: types.Message):
-    mess = await message.reply('Сбор данных...')
+@bot.message_handler(commands=['file'])
+def send_file(message: types.Message):
+    mess = bot.reply_to(message, 'Сбор данных...')
     main()
-    await mess.delete()
-    await bot.send_document(message.chat.id, types.InputFile('files/smartinox_ru.xlsx'))
+    bot.delete_message(mess.chat.id, mess.message_id)
+    bot.send_document(message.chat.id, types.InputFile('files/smartinox_ru.xlsx'))
 
 
 def main():
@@ -148,5 +147,4 @@ def write_xlsx(data: list):
 
 if __name__ == '__main__':
     MAIN_URL = 'https://smartinox.ru'
-    executor.start_polling(dp, skip_updates=True)
-
+    bot.polling()
